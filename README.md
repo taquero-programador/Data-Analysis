@@ -76,3 +76,45 @@ from some_module import g, PI
 
 result = g(5, PI)
 ```
+`None` también es un valor predeterminado común para argumentos de función:
+```py
+def add_and_maybe_multiplay(a, b, c=None):
+    result = a + b
+
+    if c is not None:
+        result = result * c
+    return result
+```
+Fechas y horarios: `datetime` combina la información almacenada en `date` y `time`.
+```py
+from datetime importa datetime
+
+dt = datetime(2011, 10, 29, 20, 30, 21)
+dt.day # retorna el día
+dt.minute # retorna el minuto
+# extrae la fecha
+dt.date()
+# extrae el tiempo
+dt.time()
+
+# usar strftime()
+dr.strftime("%Y-%m-%d %H:%m")
+# convertir una cadena a objetos `strpime`
+datetime.strpime("20091093", "%Y%m%d") # retorna un objeto strpime
+# es útil reemplazar los campos de serie minutos y segundos a ceros
+dt_hour = dt.replace(minute=0, second=0)
+# datetime.datetime produce objetos inmutables
+dt2 = datetime(2011, 11, 15, 22, 30)
+delta = dt - dt
+delta
+type(delta)
+dt + delta
+
+sequence = [1, 2, None, 4, None, 5]
+total = 0
+
+for value in sequence:
+    if value is None:
+        continue
+    total += value
+```
