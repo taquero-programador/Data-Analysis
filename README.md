@@ -329,3 +329,15 @@ with open("tmp.txt") as f:
 
 # write escribe línea por línea y no añade el salto, mientras que writelines escribe una lista de cadenas
 ```
+
+## Chapter 4: básico de NumPy
+```py
+# diferencia entre array y lista
+import numpy as np
+
+my_arr = np.arange(1_000_000)
+my_list = list(range(1_000_000))
+# comparar el tiempo
+%time my_arr2 = my_arr * 2
+%time my_list2 = my_list * 2
+```
