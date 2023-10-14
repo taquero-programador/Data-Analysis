@@ -245,4 +245,87 @@ apply_to_list(inst, lambda x: x * 2)
 strings.sort(key=lambda x: len(set(x)))
 
 # itertools
+```py
+"""
+groupby toma cualquier secuencia y una función, agrupando elementos consecutivos en
+la secuencia por valor de retorno de la función
+"""
+import itertools
+
+def first_letter(x):
+    return x[0]
+
+names = ["Alan", "Adam", "Wes", "Will", "Albert", "Steven"]
+
+for letter, names in itertools.groupby(names, first_letter):
+    print(letter, list(names))
+
+# manejo de de excepciones
+# manejar una excepción con float
+def attemp_float(x):
+    try:
+        return float(x)
+    except:
+        return x
+
+# manejar el ValueError
+def attemp_float(x):
+    try:
+        return float(x)
+    except ValueError:
+        return x
+
+# detectar múltiples tipos de excepción usando una tupla
+def attemp_float(x):
+    try:
+        return float(x)
+    except (TypeError, ValueError):
+        return x
+
+"""
+es posible no suprimir la excepción, pero ejecutar código independientemente
+de si el código en try tiene éxito o no
+"""
+f = open(path, mode="w")
+
+try:
+    write_to_file(f)
+finally:
+    f.close()
+# el objetivo de este código es siempre cerrar
+
+# ejecutar un código solo si try tiene éxito
+f = open(path, mode="w")
+
+try:
+    write_to_file(f)
+except:
+    print("Failed")
+else:
+    print("Suceeded")
+finally:
+    f.close()
+
+# Archivos y el sistema operativo
+path = r"examples/segismundo.txt"
+f = open(path, encoding="utf-8-sig")
+# de forma predeterminada, el archivo se abre en modo lectura
+for line in f:
+    print(line)
+
+# el archivo sale con los marcadores de fin de línea (EOF)
+lines = [x.rstrip() for x in open(path, encoding="utf-8-sig")]
+lines # lo imprime sin espacios
+
+with open(path, encoding="utf-8-sig") as f:
+    lines = [x.rstrip() for x in f]
+
+# escribir un archivo sin líneas en blanco
+with open("tmp.txt", mode="w") as handle:
+    handle.writelines(x for x in open(path) if len(x) > 1)
+
+with open("tmp.txt") as f:
+    lines = f.readlines()
+
+# write escribe línea por línea y no añade el salto, mientras que writelines escribe una lista de cadenas
 ```
