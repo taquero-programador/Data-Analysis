@@ -340,4 +340,93 @@ my_list = list(range(1_000_000))
 # comparar el tiempo
 %time my_arr2 = my_arr * 2
 %time my_list2 = my_list * 2
+
+# indexación Booleana
+names = np.array(["Bob", "Joe", "Will", "Bob", "Will", "Joe", "Joe"])
+data = np.array([[4, 7], [0, 2], [-5, 6], [0, 0], [1, 2], [-12, -4], [3, 4]])
+
+names == "Bob"
+# indexación
+data[nams = "Bob"]
+# todo menos Bob
+names != "Bob"
+# ~ invierte una matriz booleana referenciada
+~(names == "Bob")
+data[~(names == "Bob")]
+# ~ puede ser usado para una matriz referenciada por una variable
+cond = names == "Bob"
+data[~cond]
+
+# operadores and y or
+mask = (names == "Bob") | (names == "Will")
+mask
+data[mask]
+# names[(names == "Bob") | (names == "Will")] # retorna el valor real y no la posición
+
+# sustituye el valor o valores en el lado derecho
+data[data < 0] = 0 # valores menores a cero ceran cambiados a cero
+data[names != "Joe"] = 7
+
+# indexación fancy
+arr = np.zeros((8, 4))
+
+for i in range(8):
+    arr[i] = i
+# seleccionar un subconjunto de filas en un orden en particular
+arr[[4, 3, 0, 6]]
+
+# funciona diferente un arrays de dimensiones
+arr = np.arange(32).reshape((8, 4))
+arr[[1, 5, 7, 2], [0, 3, 1, 2]] # dimensión, posición
+
+# transposición y ejes de intercambio
+arr = np.arange(15).reshape((3, 5))
+arr.T # or .transpose()
+
+# calcular el producto con numpy.dot
+arr = np.array([[1, 0, 1], [1, 2, -2], [6, 3, 2], [-1, 0, 1], [1,0,1]])
+np.dot(arr.T, arr)
+# con @
+arr.T @ arr
+
+# generación de números pseudorandom
+samples = np.random.standard_normal(size=(4, 4))
+
+# es más rápido que random de Python
+from random import normalvariate
+
+N = 1_000_000
+
+%time samples = [normalvariate for _ in range(N)]
+%time np.random.standard_normal(N)
+# permite ser configurado con seed
+rng = np.random.default_rng(seed=12345)
+data = rng.standard_normal((2, 3))
+type(rng)
+
+# programación orientada a matrices con matrices
+# evaluar la función sqrt(x^2 + y^2)
+points = np.arange(-5, 5, 0.01)
+xs, ys = np.meshgrid(points, points)
+# evaluar la función
+z = np.sqrt(xs ** 2 + ys ** 2)
+# un ejemplo simple con matplotlib
+import matplotlib.pyplot as plt
+
+plt.imshow(z, cmap=plt.cm.gray, extent=[-5, 5, -5, 5])
+plt.colorbar()
+plt.title("Image plot of $\sqrt{x^2 + y^2} for a grid of values")
+Text(0.5, 1.0, "Image plot of $\\sqrt{x^2 + y^2} for a grid of values")
+# cerrar todas la ventanas en IPython
+plt.close("all")
+
+# np.where
+xarr = np.array([1.1, 1.2, 1.3, 1.4, 1.5])
+yarr = np.array([2.1, 2.2, 2.3, 2.4, 2.5])
+cond = np.array([True, False, True, False, False])
+# tomar un valor de xarr si está en cond o tomar yarr. primero con una compresión de lista
+result = [(x if x else y)
+    for x, y, c in zip(xarr, yarr, cond)]
+# con where
+result = np.where(cond, xarr, yarr)
 ```
