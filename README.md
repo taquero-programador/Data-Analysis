@@ -429,4 +429,110 @@ result = [(x if x else y)
     for x, y, c in zip(xarr, yarr, cond)]
 # con where
 result = np.where(cond, xarr, yarr)
+"""
+el segundo y tercer argumento en numpy.where no es necesario que sean matrices; 
+una o ambas pueden ser escalares.
+
+una acción muy común en análisis de datos es producir una nueva matriz de valores
+basados en otra matriz.
+"""
+arr = rng.standard_normal((4, 4))
+arr > 0
+np.where(arr > 0, 2, -2)
+# puede combinar escalares o matrices
+np.where(arr > 0, 2, arr)
+
+"""
+métodos matemáticos y estadísticos
+genera algunos datos aleatorios normalmente distribuidos y calcula algunas estadísticas
+agregadas.
+"""
+arr = rng.standard_normal((5, 4))
+arr.mean()
+# or
+np.maen(arr)
+arr.sum()
+
+arr.mean(axis=1) # 1 columnas
+arr.sum(axis=0) # 0 filas
+
+# métodos para matrices booleanas
+arr = rng.standard_normal(100)
+(arr > 0).sum()
+(arr <= 0).sum()
+
+# lógica única
+names = np.array(["Bob", "Will", "Bob", "Will", "Joe", "Joe"])
+np.unique(names) # retorna únicos
+inst = np.array([3, 3, 3, 2])
+np.unique(inst)
+
+# entrada y salida de archivos con arrays. numpy.save y numpy.load sirven para
+# cargary gurdar archivos
+arr = np.arange(10)
+np.save("some_arrays", arr) # el archivo se guarda como .npy
+np.load("some_arrays")
+# guardar varias matrices en un archivo sin comprimir
+np.savez("some_arr", a=arr, b=arr) # se guarda como .npz
+arch = np.load("some_arr")
+# se accede a cada array como un diccionario
+arch["a"]
+
+# álgebra línea
+x = np.array([[1., 2., 3.], [4., 5., 6.]])
+y = np.array([[6., 23.], [-1, 7], [8, 9]])
+x.dot(y)
+# es equivalente a
+np.dot(x, y)
+x @ np.ones(3)
+# numpy.linalg tiene un conjunto estándar de descomposiciones matriciales y cosas como inverso
+# y determinante
+from numpy.linalg import ibv, qr
+
+X = rng.standard_normal((5, 5))
+mat = X.T @ X
+inv(mat)
+mat @ inv(mat)
+
+# ejemplo: pasos aleatorios
+import random
+
+position = 0
+walk = [position]
+nsteps = 1000
+for _ in range(nsteps):
+    step = 1 if random.randint(0, 1) else -1
+    position += step
+    walk.append(position)
+
+plt.plot(walk[:100])
+# con numpy.random
+nsteps = 1000
+rng = np.random.default_rng(seed=12345)
+draws = rng.integers(0, 2, size=nsteps)
+steps = np.where(draws == 0, 1, -1)
+walk = steps.cumsum()
+walk.min()
+walk.max()
+(np.abs(walk) >= 10).argmax()
+# calcular 5000
+nwalks = 5000
+nsteps = 1000
+draws = rng.integers(0, 2, size=(nwalks, nsteps))
+steps = np.where(draws > 0, 1, -1)
+walks = steps.cumsum(axis=1)
+walks
+walks.max()
+walks.min()
+# calcular el tiempo mínimo de cruce
+hits30 = (np.abs(walks) >= 30).any(axis=1)
+hits30.sum()
+# usar una matriz booleana para seleccionar filas de walks que realmente cruzan el nivel
+# absoluto 30
+crossing_time = (np.abs(walks[hits30]) >= 30)
+crossing_time
+# calcular el tiempo mínimo de cruce promedio
+crossing_time.mean()
+# other example
+draws = 025 * rng.standard_normal((nwalks, nsteps))
 ```
