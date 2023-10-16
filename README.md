@@ -536,3 +536,19 @@ crossing_time.mean()
 # other example
 draws = 025 * rng.standard_normal((nwalks, nsteps))
 ```
+
+## Chapter 5: comenzando con Pandas
+```py
+import numpy as np
+import pandas as pd
+"""
+serie: una serie es un objeto similar a una matriz unidimensional que contiene una
+secuencia de valores. la serie más simple se forma a partir de solo una matriz de datos
+"""
+obj = pd.Series([4, 7, -5, 8])
+# se puede obtener la representación de array e index
+obj.array
+obj.index
+# crear una serie con etiquetas
+obj2 = pd.Series([4, 7, -5, 8], index=["d", "b", "a", "c"])
+```
