@@ -92,17 +92,22 @@ from datetime importa datetime
 dt = datetime(2011, 10, 29, 20, 30, 21)
 dt.day # retorna el día
 dt.minute # retorna el minuto
+
 # extrae la fecha
 dt.date()
+
 # extrae el tiempo
 dt.time()
 
 # usar strftime()
 dr.strftime("%Y-%m-%d %H:%m")
+
 # convertir una cadena a objetos `strpime`
 datetime.strpime("20091093", "%Y%m%d") # retorna un objeto strpime
+
 # es útil reemplazar los campos de serie minutos y segundos a ceros
 dt_hour = dt.replace(minute=0, second=0)
+
 # datetime.datetime produce objetos inmutables
 dt2 = datetime(2011, 11, 15, 22, 30)
 delta = dt - dt
@@ -126,6 +131,7 @@ El operador `_` se utiliza para variables no deseadas
 everything = []
 for chunk in list_of_lists:
     everything.extend(chunk)
+
 # es más raápido de que la alternativa concateniativa
 for chunk in list_of_lists:
     everything = everything + chunk
@@ -158,8 +164,10 @@ for word in words:
 
 # calcular el largo único de las palabras
 {len(x) for x in strings}
+
 # eso mismo se puede hacer con map
 set(map(len, strings))
+
 # usar map junto a una función
 def mult(num):
     return num * 2
@@ -177,13 +185,14 @@ names_of_interest = []
 for names in all_data:
     enough_as = [name for name in names if name.count("a") >= 2]
     names_of_interest.extend(enough_as)
+
 # hacer lo mismo con una sola compresión de lista anidada
 result = [name for names in all_data for name in names if name.count("a") >= 2]
 
 # tuplas anidadas
 some_tuples = [(1,2,3), (4,5,6), (7,8,9)]
 
-flattened = [x for tup in some_tuples for x for tup]
+flattened = [x for tup in some_tuples for x in tup]
 # una lista de compresión anidada sería muy similar a un bucle
 flattened = []
 for tup in some_tuples:
@@ -245,7 +254,6 @@ apply_to_list(inst, lambda x: x * 2)
 strings.sort(key=lambda x: len(set(x)))
 
 # itertools
-```py
 """
 groupby toma cualquier secuencia y una función, agrupando elementos consecutivos en
 la secuencia por valor de retorno de la función
@@ -309,6 +317,7 @@ finally:
 # Archivos y el sistema operativo
 path = r"examples/segismundo.txt"
 f = open(path, encoding="utf-8-sig")
+
 # de forma predeterminada, el archivo se abre en modo lectura
 for line in f:
     print(line)
@@ -337,6 +346,7 @@ import numpy as np
 
 my_arr = np.arange(1_000_000)
 my_list = list(range(1_000_000))
+
 # comparar el tiempo
 %time my_arr2 = my_arr * 2
 %time my_list2 = my_list * 2
@@ -347,12 +357,15 @@ data = np.array([[4, 7], [0, 2], [-5, 6], [0, 0], [1, 2], [-12, -4], [3, 4]])
 
 names == "Bob"
 # indexación
-data[nams = "Bob"]
+data[names == "Bob"]
+
 # todo menos Bob
 names != "Bob"
+
 # ~ invierte una matriz booleana referenciada
 ~(names == "Bob")
 data[~(names == "Bob")]
+
 # ~ puede ser usado para una matriz referenciada por una variable
 cond = names == "Bob"
 data[~cond]
@@ -361,6 +374,7 @@ data[~cond]
 mask = (names == "Bob") | (names == "Will")
 mask
 data[mask]
+
 # names[(names == "Bob") | (names == "Will")] # retorna el valor real y no la posición
 
 # sustituye el valor o valores en el lado derecho
@@ -372,6 +386,7 @@ arr = np.zeros((8, 4))
 
 for i in range(8):
     arr[i] = i
+
 # seleccionar un subconjunto de filas en un orden en particular
 arr[[4, 3, 0, 6]]
 
@@ -386,6 +401,7 @@ arr.T # or .transpose()
 # calcular el producto con numpy.dot
 arr = np.array([[1, 0, 1], [1, 2, -2], [6, 3, 2], [-1, 0, 1], [1,0,1]])
 np.dot(arr.T, arr)
+
 # con @
 arr.T @ arr
 
@@ -399,6 +415,7 @@ N = 1_000_000
 
 %time samples = [normalvariate for _ in range(N)]
 %time np.random.standard_normal(N)
+
 # permite ser configurado con seed
 rng = np.random.default_rng(seed=12345)
 data = rng.standard_normal((2, 3))
@@ -408,8 +425,10 @@ type(rng)
 # evaluar la función sqrt(x^2 + y^2)
 points = np.arange(-5, 5, 0.01)
 xs, ys = np.meshgrid(points, points)
+
 # evaluar la función
 z = np.sqrt(xs ** 2 + ys ** 2)
+
 # un ejemplo simple con matplotlib
 import matplotlib.pyplot as plt
 
@@ -417,6 +436,7 @@ plt.imshow(z, cmap=plt.cm.gray, extent=[-5, 5, -5, 5])
 plt.colorbar()
 plt.title("Image plot of $\sqrt{x^2 + y^2} for a grid of values")
 Text(0.5, 1.0, "Image plot of $\\sqrt{x^2 + y^2} for a grid of values")
+
 # cerrar todas la ventanas en IPython
 plt.close("all")
 
@@ -424,9 +444,11 @@ plt.close("all")
 xarr = np.array([1.1, 1.2, 1.3, 1.4, 1.5])
 yarr = np.array([2.1, 2.2, 2.3, 2.4, 2.5])
 cond = np.array([True, False, True, False, False])
+
 # tomar un valor de xarr si está en cond o tomar yarr. primero con una compresión de lista
 result = [(x if x else y)
     for x, y, c in zip(xarr, yarr, cond)]
+
 # con where
 result = np.where(cond, xarr, yarr)
 """
@@ -439,6 +461,7 @@ basados en otra matriz.
 arr = rng.standard_normal((4, 4))
 arr > 0
 np.where(arr > 0, 2, -2)
+
 # puede combinar escalares o matrices
 np.where(arr > 0, 2, arr)
 
@@ -472,9 +495,11 @@ np.unique(inst)
 arr = np.arange(10)
 np.save("some_arrays", arr) # el archivo se guarda como .npy
 np.load("some_arrays")
+
 # guardar varias matrices en un archivo sin comprimir
 np.savez("some_arr", a=arr, b=arr) # se guarda como .npz
 arch = np.load("some_arr")
+
 # se accede a cada array como un diccionario
 arch["a"]
 
@@ -482,9 +507,11 @@ arch["a"]
 x = np.array([[1., 2., 3.], [4., 5., 6.]])
 y = np.array([[6., 23.], [-1, 7], [8, 9]])
 x.dot(y)
+
 # es equivalente a
 np.dot(x, y)
 x @ np.ones(3)
+
 # numpy.linalg tiene un conjunto estándar de descomposiciones matriciales y cosas como inverso
 # y determinante
 from numpy.linalg import ibv, qr
@@ -506,6 +533,7 @@ for _ in range(nsteps):
     walk.append(position)
 
 plt.plot(walk[:100])
+
 # con numpy.random
 nsteps = 1000
 rng = np.random.default_rng(seed=12345)
@@ -515,6 +543,7 @@ walk = steps.cumsum()
 walk.min()
 walk.max()
 (np.abs(walk) >= 10).argmax()
+
 # calcular 5000
 nwalks = 5000
 nsteps = 1000
@@ -524,15 +553,19 @@ walks = steps.cumsum(axis=1)
 walks
 walks.max()
 walks.min()
+
 # calcular el tiempo mínimo de cruce
 hits30 = (np.abs(walks) >= 30).any(axis=1)
 hits30.sum()
+
 # usar una matriz booleana para seleccionar filas de walks que realmente cruzan el nivel
 # absoluto 30
 crossing_time = (np.abs(walks[hits30]) >= 30)
 crossing_time
+
 # calcular el tiempo mínimo de cruce promedio
 crossing_time.mean()
+
 # other example
 draws = 025 * rng.standard_normal((nwalks, nsteps))
 ```
@@ -546,9 +579,63 @@ serie: una serie es un objeto similar a una matriz unidimensional que contiene u
 secuencia de valores. la serie más simple se forma a partir de solo una matriz de datos
 """
 obj = pd.Series([4, 7, -5, 8])
+
 # se puede obtener la representación de array e index
 obj.array
 obj.index
+
 # crear una serie con etiquetas
 obj2 = pd.Series([4, 7, -5, 8], index=["d", "b", "a", "c"])
+obj2[obj2 > 0]
+obj2 * 2
+
+import numpy as np
+
+np.exp(obj2)
+# otra forma de pensar acerca de una serie es como un diccionario ordenado de
+# longitud fija
+"b" in obj2 # True
+
+# crear una serie a partir de un diccionario
+sdata = {"Ohio": 35000, "Texas": 71000, "Oregon": 16000, "Utah"; 5000}
+obj3 = pd.Series(sdata)
+
+# una serie se puede volver a convertir a un diccionario
+obj3.to_dict()
+
+# al pasar un diccionario respeta el orden, se puede anular pasando un index en el orden deseado
+states = ["California", "Ohio", "Oregon", "Texas"]
+obj4 = pd.Series(sdata, index=states)
+
+# California se agrega, pero el valor es NaN
+pd.isna(obj4) # retorna True en los valores NaN. también obj.isna()
+pd.notna(obj4) # retorna solo los False
+
+# una característica útil es que se alinea automáticamente por etiqueta de índice en operaciones aritméticas
+obj4 + obj3
+
+# tanto el objeto Serie como su índice tinen un atributo name
+obj4.name = "population"
+obj4.index.name = "state"
+
+# el índice de una serie se puede modificar mediante ua asignación
+obj.index = ["Bob", "Steve", "Jeff", "Ryan"]
+
+"""
+marco de datos (DataFrame)
+un DataFrame representa una tabla rectangular de datos y contiene una colección
+ordenada y con nombre de columnas, cada una de las cuales puede ser un tipo de valor
+diferente. El DataFrame tiene un índice de fila y columna; se puede considerar
+como un diccionario de series que comparte el mismo índice.
+"""
+# hay muchas maneras de crear un DataFrame, aunque una de las más comunes es usar un diccionario
+data = {"state": ["Ohio", "Ohio", "Ohio", "Nevada", "Nevada", "Nevada"],
+    "year": [200, 2001, 2002, 2001, 2002, 2003],
+    "pop": [1.5, 1.7, 3.6, 2.4, 2.9, 3.2]}
+frame = pd.DataFrame(data)
+
+# el método head selecciona las primeras cinco filas
+frame.head() # or frame.head(int)
+
+frame.tail() # retorna las últimas cinco filas
 ```
