@@ -155,9 +155,9 @@ for word in words:
     by_letter.setfedault(letter, []).append(word)
 
 # usando setdefaultdic de collections
-from collections import setdefaultdict
+from collections import defaultdict
 
-by_letter = setdefaultdict(list)
+by_letter = defaultdict(list)
 
 for word in words:
     by_letter[word[0]].append(word)
