@@ -152,7 +152,7 @@ by_letter = {}
 
 for word in words:
     letter = word[0]
-    by_letter.setdefaultdic(letter, []).append(word)
+    by_letter.setdefault(letter, []).append(word)
 
 # usando defaultdic de collections
 from collections import defaultdict
