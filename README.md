@@ -586,6 +586,8 @@ obj.index
 
 # crear una serie con etiquetas
 obj2 = pd.Series([4, 7, -5, 8], index=["d", "b", "a", "c"])
+obj2["a"]
+obj2["d"] = 6
 obj2[obj2 > 0]
 obj2 * 2
 
