@@ -640,4 +640,59 @@ frame = pd.DataFrame(data)
 frame.head() # or frame.head(int)
 
 frame.tail() # retorna las últimas cinco filas
+
+# pasar una columna que no está contenida en el diccionario, aparecera con valores faltantes
+frame2 = pd.DataFrame(data, columns=["year", "state", "pop", "debt"])
+
+# se puede recuperar una columna por notación de diccionario o notación de punto
+frame2["year"]
+frame2.year
+
+# se puede usar `iloc` y `loc` para recuperar las columnas
+frame2.loc[1]
+frame2.iloc[2]
+
+# las columnas se puede modificar pos asignación
+frame2.debt = 16.5 # or frame2["debt"] = 16.5
+frame2.debt = np.arange(6.)
+
+# pasar una serie se añade según su index
+val = pd.Series([-1.2, -1.5, -1.7], index=[2, 4, 5])
+frame2["debt"] = val
+
+# usar del para eliminar una columna. no se puede usar la notación de punto para alterar una columna
+frame2["eastern"] = frame2["state"] == "Ohio" # crea una columna con valores booleanos
+del frame2["eastern"]
+
+# otra forma común de datos es un diccionario anidado de diccionarios
+populations = {"Ohio": {2000: 1.5, 2001: 1.7, 2002: 3.6},
+    "Nevada": {2001: 2.4, 2002: 2.9}}
+
+# si el diccionario anidado se pasa al DataFrame, Pandas interpretara la claves externas como columnas
+# y las claves internas como índices de fila
+frame3 = pd.DataFrame(populations)
+
+# para transponer el DataFrame
+frame3.T
+
+# las claves internas de un diccionario se combinan para formar el índice de resultado
+# esto no es cierto si se especifica un índice explcícito
+pd.DataFrame(populations, index=[2001, 2002, 2003])
+
+# los diccionarios de serie de tratan de la misma manera
+pdata = {"Ohio": frame3["Ohio"][:-1],
+    "Nevada": frame3["Nevada"][:2]}
+pd.DataFrame(pdata)
+
+# check
+frame3.index.name = "year"
+frame3.columns.name = "state"
+
+# a diferencia de las series,DataFrame no tiene un atributo name
+
+"""
+si las columnas del DataFrame son diferentes tipos de datos, se elegirá el tipo
+de datos de la matriz devuelta para acomodar todas las columnas
+"""
+frame.to_numpy()
 ```
